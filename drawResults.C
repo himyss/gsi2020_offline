@@ -60,6 +60,7 @@ void drawResults(TString fileName, TString treeName, Int_t nEvents) {
   c_rM->SaveAs("result/mean.root");
   c_rM->Print("result/mean.png");
 
+
   TCanvas *c_rA = new TCanvas("c_rA","amp distribution",1000,1000);
   c_rA->Divide(1,3);
 

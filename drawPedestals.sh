@@ -1,8 +1,10 @@
 #!/bin/bash
 
-INPUTFILENAME=/u/frsgast/s475plus/upexps/202003_s474s475p/rootfiles/s475plus_08_70Br_0497.root
+INPUTFILENAME=/media/ivan/data/gsi_2020/data/s475plus_08_70Br_0497.root
 TREENAME=h101
-NEVENTS=700
+NEVENTS=500
+OUTPUTFILENAME=$(basename "$INPUTFILENAME")
+OUTPUTFILENAME="./result/"${OUTPUTFILENAME//".root"/}"_subtr.root"
 
 
 if [ -z ${ROOTSYS+x} ]; then
@@ -28,16 +30,18 @@ else
   mkdir ${BASEDIR}/result
 fi
 
+root -l -q -b 'readPedestals.C('\"$INPUTFILENAME\"','\"$OUTPUTFILENAME\"','\"$TREENAME\"','$NEVENTS')'
+
 for number in 1 2 3
 do
 
 TEXTOUTFILE=${BASEDIR}/textoutput/out_${number}.txt
 TEXTERRFILE=${BASEDIR}/textoutput/err_${number}.txt
 
-root -l -q -b 'sigma.C('\"$INPUTFILENAME\"','\"$TREENAME\"','$NEVENTS','$number')' & #>> TEXTOUTFILE 2> TEXTERRFILE & 
-root -l -q -b 'mean.C('\"$INPUTFILENAME\"','\"$TREENAME\"','$NEVENTS','$number')' & #>> TEXTOUTFILE 2> TEXTERRFILE & 
+root -l -q -b 'sigma.C('\"$OUTPUTFILENAME\"','\"$TREENAME\"','$NEVENTS','$number')' & #>> TEXTOUTFILE 2> TEXTERRFILE & 
+root -l -q -b 'mean.C('\"$OUTPUTFILENAME\"','\"$TREENAME\"','$NEVENTS','$number')' & #>> TEXTOUTFILE 2> TEXTERRFILE & 
 
 done
 
 wait
-root -l 'drawResults.C('\"$INPUTFILENAME\"','\"$TREENAME\"','$NEVENTS')'
+root -l 'drawResults.C('\"$OUTPUTFILENAME\"','\"$TREENAME\"','$NEVENTS')'
