@@ -1,4 +1,4 @@
-void readPedestals(TString inputFile, TString outputFile, TString treeName, Int_t nEvents) {
+void pedAnalyse(TString inputFile, TString outputFile, TString treeName, Int_t nEvents) {
     
   TString t;
   Int_t counter;

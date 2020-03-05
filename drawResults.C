@@ -12,96 +12,52 @@ void drawResults(TString fileName, TString treeName, Int_t nEvents) {
     return;
   }
 
-  TCanvas *c_rS = new TCanvas("c_rS","pedestal sigma distribution",1000,1000);
-  c_rS->Divide(1,3);
-
-  c_rS->cd(1);
   TGraph *g_sigma1 = new TGraph("./result/s_graph_1.txt");
-  g_sigma1->SetTitle("SST1;strip;sigma");
-  g_sigma1->Draw("AL");
-  c_rS->Update();
+  g_sigma1->SetTitle("SST1E_gsi06;strip;sigma");
 
-  c_rS->cd(2);
   TGraph *g_sigma2 = new TGraph("./result/s_graph_2.txt");
-  g_sigma2->SetTitle("SST2;strip;sigma");
-  g_sigma2->Draw("AL");
-  c_rS->Update();
+  g_sigma2->SetTitle("SST2E_gsi04;strip;sigma");
 
-  c_rS->cd(3);
   TGraph *g_sigma3 = new TGraph("./result/s_graph_3.txt");
-  g_sigma3->SetTitle("SST3;strip;sigma");
-  g_sigma3->Draw("AL");
-  c_rS->Update();
+  g_sigma3->SetTitle("SST3E_gsi08;strip;sigma");
 
-  c_rS->SaveAs("result/sigma.root");
-  c_rS->Print("result/sigma.png");
-
-  TCanvas *c_rM = new TCanvas("c_rM","pedestal mean distribution",1000,1000);
-  c_rM->Divide(1,3);
-
-  c_rM->cd(1);
   TGraph *g_mean1 = new TGraph("./result/m_graph_1.txt");
-  g_mean1->SetTitle("SST1;strip;pedestal");
-  g_mean1->Draw("AL");
-  c_rM->Update();
+  g_mean1->SetTitle("SST1E_gsi06;strip;deposit");
 
-  c_rM->cd(2);
   TGraph *g_mean2 = new TGraph("./result/m_graph_2.txt");
-  g_mean2->SetTitle("SST2;strip;pedestal");
-  g_mean2->Draw("AL");
-  c_rM->Update();
+  g_mean2->SetTitle("SST2E_gsi04;strip;deposit");
 
-  c_rM->cd(3);
   TGraph *g_mean3 = new TGraph("./result/m_graph_3.txt");
-  g_mean3->SetTitle("SST3;strip;pedestal");
-  g_mean3->Draw("AL");
-  c_rM->Update();
+  g_mean3->SetTitle("SST3E_gsi08;strip;deposit");
 
-  c_rM->SaveAs("result/mean.root");
-  c_rM->Print("result/mean.png");
+  TCanvas *c1 = new TCanvas("c1","analysis window",1800,1000);
+  c1->Divide(3,3);
 
-
-  TCanvas *c_rA = new TCanvas("c_rA","amp distribution",1000,1000);
-  c_rA->Divide(1,3);
-
-  c_rA->cd(1);
-  TH2I * amp1= new TH2I("amp1","SST1;strip num;deposit",1024,0,1024,4096,0,4096 );
-  t->Draw("SST1E:SST1I >> amp1","","col", nEvents, 0);
-  c_rA->Update();
-
-  c_rA->cd(2);
-  TH2I * amp2= new TH2I("amp2","SST2;strip num;deposit",1024,0,1024,4096,0,4096 );
-  t->Draw("SST2E:SST2I >> amp2","","col", nEvents, 0);
-  c_rA->Update();
-
-  c_rA->cd(3);
-  TH2I * amp3= new TH2I("amp3","SST3;strip num;deposit",1024,0,1024,4096,0,4096 );
-  t->Draw("SST3E:SST3I >> amp3","","col", nEvents, 0);
-  c_rA->Update();
-
-  c_rA->SaveAs("result/signal.root");
-  c_rA->Print("result/signal.png");
-
-  TCanvas *c_ALL = new TCanvas("c_ALL","all figs",1000,1000);
-  c_ALL->Divide(3,3);
-  c_ALL->cd(1);
+  c1->cd(1);
   g_mean1->Draw("AL");
-  c_ALL->cd(4);
+  c1->cd(4);
   g_mean2->Draw("AL");
-  c_ALL->cd(7);
+  c1->cd(7);
   g_mean3->Draw("AL");
-  c_ALL->cd(2);
+
+  c1->cd(2);
   g_sigma1->Draw("AL");
-  c_ALL->cd(5);
+  c1->cd(5);
   g_sigma2->Draw("AL");
-  c_ALL->cd(8);
+  c1->cd(8);
   g_sigma3->Draw("AL");
-  c_ALL->cd(3);
-  amp1->Draw("col");
-  c_ALL->cd(6);
-  amp2->Draw("col");
-  c_ALL->cd(9);
-  amp3->Draw("col");
-  c_ALL->Print("result/ALL.png");
+
+  c1->cd(3);
+  TH2I * amp1= new TH2I("amp1","SST1E_gsi06;strip num;deposit",1024,0,1024,4096,0,4096 );
+  t->Draw("SST1E:SST1I >> amp1","","col", nEvents, 0);
+  c1->cd(6);
+  TH2I * amp2= new TH2I("amp2","SST2E_gsi04;strip num;deposit",1024,0,1024,4096,0,4096 );
+  t->Draw("SST2E:SST2I >> amp2","","col", nEvents, 0);
+  c1->cd(9);
+  TH2I * amp3= new TH2I("amp3","SST3E_gsi08;strip num;deposit",1024,0,1024,4096,0,4096 );
+  t->Draw("SST3E:SST3I >> amp3","","col", nEvents, 0);
+
+  c1->Print("./figures/fig.png");
+
   return;
 }
