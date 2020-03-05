@@ -1,8 +1,8 @@
 #!/bin/bash
 
-INPUTFILENAME=/media/ivan/data/gsi_2020/data/s475plus_08_70Br_0497.root
+INPUTFILENAME=/u/frsgast/s475plus/upexps/202003_s474s475p/rootfiles/s475plus_08_70Br_0497.root
 TREENAME=h101
-NEVENTS=200
+NEVENTS=700
 
 
 if [ -z ${ROOTSYS+x} ]; then
